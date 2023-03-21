@@ -37,6 +37,7 @@ void DeleteAdptArray(PAdptArray pAdptArray) {
         }
     }
     free(pAdptArray->array);
+    free(pAdptArray);
 }
 
 Result SetAdptArrayAt(PAdptArray pAdptArray, int index, PElement pElement) {
@@ -44,7 +45,7 @@ Result SetAdptArrayAt(PAdptArray pAdptArray, int index, PElement pElement) {
         return FAIL;
     }
     if (index >= pAdptArray->size) { // Need to resize the array
-        PElement* newArray = (PElement*) malloc((index + 1) * sizeof(PElement));
+        PElement* newArray = (PElement*) calloc((index + 1), sizeof(PElement));
         if (newArray == NULL) {
             return FAIL;
         }
@@ -62,6 +63,7 @@ Result SetAdptArrayAt(PAdptArray pAdptArray, int index, PElement pElement) {
 
     if (pAdptArray->array[index] != NULL) { // Delete the exising element
         pAdptArray->delFunc(pAdptArray->array[index]);
+        free(pAdptArray->array[index]);
     }
     pAdptArray->array[index] = pAdptArray->copyFunc(pElement);
     return SUCCESS;
