@@ -44,7 +44,7 @@ Result SetAdptArrayAt(PAdptArray pAdptArray, int index, PElement pElement) {
         return FAIL;
     }
     if (index >= pAdptArray->size) { // Need to resize the array
-        PElement* newArray = (PElement*) malloc(index * sizeof(PElement));
+        PElement* newArray = (PElement*) malloc((index + 1) * sizeof(PElement));
         if (newArray == NULL) {
             return FAIL;
         }
@@ -55,6 +55,7 @@ Result SetAdptArrayAt(PAdptArray pAdptArray, int index, PElement pElement) {
                 newArray[i] = NULL;
             }
         }
+        free(pAdptArray->array);
         pAdptArray->array = newArray;
         pAdptArray->size = index + 1;
     }
